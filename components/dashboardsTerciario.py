@@ -6,6 +6,8 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.figure_factory as ff
+import numpy as np
 import calendar
 from globals import *
 from app import app
@@ -103,16 +105,19 @@ layout = dbc.Col([
         dbc.Col([
             dbc.Card([
                 html.Legend('Vendas em outros países', style={'text-align':'center', 'font-size':'35px', 'margin-top':'20px'}),
-                dcc.Graph(id='GraphNOther', style={'margin-top':'-14px'})
-            ], style={'margin-top':'10px'})
+                dcc.Graph(id='GraphNOther', style={'margin-top':'-14px'}),
+                ], style={'margin-top':'10px'}),
+            dbc.Card([
+                dcc.Graph(id='graphSales', className='dbc',  config={"displayModeBar": False, "showTips": False})
+                ], style={'margin-top':'10px', 'width':'223%'}),
         ], width=4),
         dbc.Col([
             dbc.Card([
                 html.Legend('Vendas global', style={'text-align':'center', 'margin-top':'20px', 'font-size':'35px'}),
                 dcc.Graph(id='graphNGS', style={'margin-top':'-15px'})
             ], style={'margin-top':'10px'})
-        ], width=5)
-    ])
+        ], width=5),
+    ]),
 ])
 
 # ==== CALLBACK ==== #
@@ -148,10 +153,6 @@ def ind1(date):
     value4 = GraphNOther['Global_Sales'].max()
     name4 = GraphNOther.loc[GraphNOther['Global_Sales'].idxmax()]['Other_Sales']
 
-    value5 = graphNGS['Global_Sales'].max()
-    name5 = graphNGS.loc[graphNGS['Global_Sales'].idxmax()]
-
-
     fig1 = go.Figure()
     fig2 = go.Figure()
     fig3 = go.Figure()
@@ -166,13 +167,13 @@ def ind1(date):
 
     fig2.add_trace(go.Indicator(
         mode = "number",
-        value = value2,
+        value = value3,
         number = {'valueformat': '.2f'}
     ))
 
     fig3.add_trace(go.Indicator(
         mode = "number",
-        value = value3,
+        value = value2,
         number = {'valueformat': '.2f'}
     ))
 
@@ -196,3 +197,41 @@ def ind1(date):
 
 
     return fig1, fig2, fig3, fig4, fig5
+
+
+@app.callback(
+    Output('graphSales', 'figure'),
+    Input('rangeslider', 'value'),
+)
+def long(date):
+    mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
+
+    graphNEU = graphNNA = graphNJP = GraphNOther = graphNGS = df.loc[mask]
+
+    graphNEU = graphNEU.groupby(['EU_Sales'])['Global_Sales'].sum().reset_index()
+    graphNNA = graphNNA.groupby(['NA_Sales'])['Global_Sales'].sum().reset_index()
+    graphNJP = graphNJP.groupby(['JP_Sales'])['Global_Sales'].sum().reset_index()
+    GraphNOther = GraphNOther.groupby(['Other_Sales'])['Global_Sales'].sum().reset_index()
+    graphNGS = graphNGS.groupby(['Global_Sales']).sum().reset_index()
+    
+    value1 = graphNEU['Global_Sales'].max()
+    name1 = graphNEU.loc[graphNEU['Global_Sales'].idxmax()]['EU_Sales']
+
+    value2 = graphNNA['Global_Sales'].max()
+    name2 = graphNNA.loc[graphNNA['Global_Sales'].idxmax()]['NA_Sales']
+
+    value3 = graphNJP['Global_Sales'].max()
+    name3 = graphNJP.loc[graphNJP['Global_Sales'].idxmax()]['JP_Sales']
+
+    value4 = GraphNOther['Global_Sales'].max()
+    name4 = GraphNOther.loc[GraphNOther['Global_Sales'].idxmax()]['Other_Sales']
+
+    labels = ['Vendas na Europa','Vendas na América','Vendas no Japão', 'Vendas em outros países']
+    values = [value1, value3, value2, value4]
+
+    # pull is given as a fraction of the pie radius
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
+    fig.update_layout(main_config, height=250, xaxis={'title': None}, yaxis={'title': None})
+
+
+    return fig
