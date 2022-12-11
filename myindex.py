@@ -4,6 +4,7 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
+from dash_bootstrap_templates import ThemeSwitchAIO
 
 from app import *
 from components import sidebar, dashboardsPrimario, dashboardsSecundario, dashboardsTerciario

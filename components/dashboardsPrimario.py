@@ -7,9 +7,15 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+from dash_bootstrap_templates import ThemeSwitchAIO
 import calendar
 from globals import *
 from app import app
+
+template_theme1 = "bootstrap"
+template_theme2 = "darkly"
+url_theme1 = dbc.themes.BOOTSTRAP
+url_theme2 = dbc.themes.DARKLY
 
 main_config = {
     "hovermode": "x unified",
@@ -46,18 +52,18 @@ layout = dbc.Col([
         dbc.Row([
         dbc.Col([
             dbc.Card([
-                html.Legend('DataSet usado', style={'text-align':'center'}),
+                html.Legend('dataset utilizado', style={'text-align':'center'}),
                 dash_table.DataTable(
                     data=df.to_dict('records'),
                     columns=[{'id': c, 'name': c} for c in df.columns],
-                    style_header={ 'border': '1px solid #EAEAEA' },
+                    style_header={ 'border': '1px solid #EAEAEA', 'background-color':'#393E46', 'color':'white', 'text-align':'center'},
                     filter_action='native',
                     style_cell={ 'border': '1px solid #EAEAEA', 'textAlign': 'left'},
-                    page_size=4,     
+                    page_size=5,     
                     style_data={
                         'whiteSpace': 'normal',
-                        'height': 'auto',
-                    },)
+                        'height': 'auto', 'color':'black'
+                    }, id='tableData')
             ], style={'margin-top':'10px', 'padding-left':'10px', 'padding-right':'15px'})
         ], width=12),
        ]),
@@ -101,7 +107,7 @@ layout = dbc.Col([
         ], width=4),
         dbc.Col([
             dbc.Card([
-                dcc.Graph(id='graphSec1', className='dbc', config={"displayModeBar": False, "showTips": False}, animate=True),
+                dcc.Graph(id='graphSec1', className='dbc', config={"displayModeBar": False, "showTips": False}),
                 dbc.Button("Abrir modal", id="open11", n_clicks=0, style={'border':'none', 'border-radius':'5px', 'margin-top':'5px', 'width':'80%', 'margin-left':'10%', 'margin-bottom':'10px'}),
                 dbc.Modal(
                     [
@@ -145,30 +151,35 @@ layout = dbc.Col([
 @app.callback(
     Output('graphSec0', 'figure'),
     Input('rangeslider', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
 )
-def long(date):
+def long(date, toggle):
+    template = template_theme1 if toggle else template_theme2
     mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
 
     df_generos = df.loc[mask]
     trace = df_generos.groupby('Genre')['Global_Sales'].sum().reset_index()
     fig = px.bar(df, x=trace['Genre'], y=trace['Global_Sales'])
 
-    fig.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None})
+    fig.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None}, template=template)
 
     return fig
 
 @app.callback(
     Output('graphSec10', 'figure'),
     Input('rangeslider', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
 )
-def long(date):
+def long(date, toggle):
+    template = template_theme1 if toggle else template_theme2
+
     mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
 
     df_generos = df.loc[mask]
     trace = df_generos.groupby('Genre')['Global_Sales'].sum().reset_index()
     fig = px.bar(df, x=trace['Genre'], y=trace['Global_Sales'])
 
-    fig.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None})
+    fig.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None}, template=template)
 
     return fig
 
@@ -184,21 +195,6 @@ def toggle_modal(n1, n2, is_open):
     return is_open
 
 @app.callback(
-    Output('graphSec1', 'figure'),
-    Input('rangeslider', 'value'),
-)
-def long(date):
-    mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
-
-    df_EU = df.loc[mask]
-    trace = df_EU.groupby('Year')['EU_Sales'].sum().reset_index()
-    fig_line = px.line(df, x=trace['Year'], y=trace['EU_Sales'], markers=True)
-
-    fig_line.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None})
-
-    return fig_line
-
-@app.callback(
     Output("modal11", "is_open"),
     [Input("open11", "n_clicks"), Input("close11", "n_clicks")],
     [State("modal11", "is_open")],
@@ -209,16 +205,41 @@ def toggle_modal(n1, n2, is_open):
     return is_open
 
 @app.callback(
-    Output('graphSec11', 'figure'),
+    Output('graphSec1', 'figure'),
     Input('rangeslider', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def long(date):
+def long(date, toggle):
+    template = template_theme1 if toggle else template_theme2
+
     mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
 
     df_EU = df.loc[mask]
     trace = df_EU.groupby('Year')['EU_Sales'].sum().reset_index()
     fig_line = px.line(df, x=trace['Year'], y=trace['EU_Sales'], markers=True)
 
-    fig_line.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None})
+    fig_line.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None}, template=template)
+
+    return fig_line
+
+
+
+@app.callback(
+    Output('graphSec11', 'figure'),
+    Input('rangeslider', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
+)
+def long(date, toggle):
+    template = template_theme1 if toggle else template_theme2
+
+    mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
+
+    df_EU = df.loc[mask]
+    trace = df_EU.groupby('Year')['EU_Sales'].sum().reset_index()
+    fig_line = px.line(df, x=trace['Year'], y=trace['EU_Sales'], markers=True)
+
+    fig_line.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None}, template=template)
 
     return fig_line

@@ -11,6 +11,12 @@ import numpy as np
 import calendar
 from globals import *
 from app import app
+from dash_bootstrap_templates import ThemeSwitchAIO
+
+template_theme1 = "bootstrap"
+template_theme2 = "darkly"
+url_theme1 = dbc.themes.BOOTSTRAP
+url_theme2 = dbc.themes.DARKLY
 
 main_config = {
     "hovermode": "x unified",
@@ -129,8 +135,11 @@ layout = dbc.Col([
     Output('GraphNOther', 'figure'),
     Output('graphNGS', 'figure'),
     Input('rangeslider', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def ind1(date):    
+def ind1(date, toggle):    
+    template = template_theme1 if toggle else template_theme2
     mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
 
     graphNEU = graphNNA = graphNJP = GraphNOther = graphNGS = df.loc[mask]
@@ -189,12 +198,11 @@ def ind1(date):
         number = {'valueformat': '.2f'}
     ))
 
-    fig1.update_layout(main_config, height=150)
-    fig2.update_layout(main_config, height=150)
-    fig3.update_layout(main_config, height=150)
-    fig4.update_layout(main_config, height=150)
-    fig5.update_layout(main_config, height=150)
-
+    fig1.update_layout(main_config, height=150, template=template)
+    fig2.update_layout(main_config, height=150, template=template)
+    fig3.update_layout(main_config, height=150, template=template)
+    fig4.update_layout(main_config, height=150, template=template)
+    fig5.update_layout(main_config, height=150, template=template)
 
     return fig1, fig2, fig3, fig4, fig5
 
@@ -202,8 +210,10 @@ def ind1(date):
 @app.callback(
     Output('graphSales', 'figure'),
     Input('rangeslider', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
 )
-def long(date):
+def long(date, toggle):
+    template = template_theme1 if toggle else template_theme2
     mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
 
     graphNEU = graphNNA = graphNJP = GraphNOther = graphNGS = df.loc[mask]
@@ -231,7 +241,7 @@ def long(date):
 
     # pull is given as a fraction of the pie radius
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
-    fig.update_layout(main_config, height=250, xaxis={'title': None}, yaxis={'title': None})
+    fig.update_layout(main_config, height=250, xaxis={'title': None}, yaxis={'title': None}, template=template)
 
 
     return fig

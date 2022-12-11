@@ -14,6 +14,12 @@ import calendar
 from globals import *
 from plotly.subplots import make_subplots
 from app import app
+from dash_bootstrap_templates import ThemeSwitchAIO
+
+template_theme1 = "bootstrap"
+template_theme2 = "darkly"
+url_theme1 = dbc.themes.BOOTSTRAP
+url_theme2 = dbc.themes.DARKLY
 
 main_config = {
     "hovermode": "x unified",
@@ -110,7 +116,7 @@ layout = dbc.Col([
             dbc.Card([
                 dcc.Tabs([
             dcc.Tab(label='Geral', children=[
-                dcc.Graph(id='graph2', className='dbc', config={"displayModeBar": False, "showTips": False}, animate=False),
+                dcc.Graph(id='graph2', className='dbc', config={"displayModeBar": False, "showTips": False}),
                 dbc.Button("Abrir modal", id="open2", n_clicks=0, style={'border':'none', 'border-radius':'5px', 'width':'95%', 'margin-left':'10px', 'margin-top':'5px', 'margin-bottom':'10px'}),
                     dbc.Modal(
                         [
@@ -126,7 +132,7 @@ layout = dbc.Col([
                         size="xl",
                         is_open=False,
                     ),
-            ]),
+            ], style={'color':'white', 'background-color':'#181D3135'}),
         dcc.Tab(label='Plataforma', children=[
             dcc.Graph(id='graph5', className='dbc', config={"displayModeBar": False, "showTips": False}, animate=True),
             dbc.Button("Abrir modal", id="open3", n_clicks=0, style={'border':'none', 'border-radius':'5px', 'width':'95%', 'margin-left':'10px', 'margin-top':'5px', 'margin-bottom':'10px'}),
@@ -145,7 +151,7 @@ layout = dbc.Col([
                         is_open=False,
                     ),
 
-        ]),
+        ], style={'color':'white', 'background-color':'#181D3135'}),
     ], style={'font-size':'16px', 'font-weight':'bold'}),          
             ], style={'margin-top':'-100px'}, className='card')
         ], width=4),
@@ -167,8 +173,12 @@ layout = dbc.Col([
     Output('graph0', 'figure'),
     Input('rangeslider', 'value'),
     Input('radio-genre', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def graph0(date, radio):
+def graph0(date, radio, toggle):
+    template = template_theme1 if toggle else template_theme2
+
     if radio == 'Global':
         mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
     else:
@@ -195,7 +205,7 @@ def graph0(date, radio):
     subplot_topgames.add_trace(go.Pie(
         labels=df_Other['Name'], values=df_Other['Sales'], hole=.2, marker_colors=night_colors), row=1, col=4)
 
-    subplot_topgames.update_layout(margin={"l":0, "r":0, "t":20, "b":0}, height=200)
+    subplot_topgames.update_layout(margin={"l":0, "r":0, "t":20, "b":0}, height=200, template=template)
 
     return subplot_topgames
 
@@ -203,8 +213,12 @@ def graph0(date, radio):
     Output('graph01', 'figure'),
     Input('rangeslider', 'value'),
     Input('radio-genre', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def graph01(date, radio):
+def graph01(date, radio, toggle):
+    template = template_theme1 if toggle else template_theme2
+
     if radio == 'Global':
         mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
     else:
@@ -231,7 +245,7 @@ def graph01(date, radio):
     subplot_topgames.add_trace(go.Pie(
         labels=df_Other['Name'], values=df_Other['Sales'], hole=.2, marker_colors=night_colors), row=1, col=4)
 
-    subplot_topgames.update_layout(margin={"l":0, "r":0, "t":20, "b":0}, height=200)
+    subplot_topgames.update_layout(margin={"l":0, "r":0, "t":20, "b":0}, height=200, template=template)
 
     return subplot_topgames
 
@@ -239,8 +253,11 @@ def graph01(date, radio):
     Output('graph3', 'figure'),
     Output('graph4', 'figure'),
     Input('rangeslider', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def ind1(date):    
+def ind1(date, toggle):    
+    template = template_theme1 if toggle else template_theme2
     mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
 
     df_graph3 = df_graph4 = df.loc[mask]
@@ -271,8 +288,8 @@ def ind1(date):
         number = {'valueformat': '.2f'}
     ))
 
-    fig1.update_layout(main_config, height=273)
-    fig2.update_layout(main_config, height=273)
+    fig1.update_layout(main_config, height=273, template=template)
+    fig2.update_layout(main_config, height=273, template=template)
 
     return fig1, fig2
 
@@ -280,8 +297,12 @@ def ind1(date):
     Output('graph2', 'figure'),
     Input('rangeslider', 'value'),
     Input('radio-genre', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def long(date, radio):
+def long(date, radio, toggle):
+    template = template_theme1 if toggle else template_theme2
+
     if radio == 'Global':
         mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
     else:
@@ -292,7 +313,7 @@ def long(date, radio):
     trace = df_anos.groupby('Year')['Global_Sales'].sum().reset_index()
 
     fig_anos = go.Figure(go.Scatter(x=trace['Year'], y=trace['Global_Sales'], mode='lines+markers', fill='tonexty', name='Global Sales'))
-    fig_anos.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None})
+    fig_anos.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None}, template=template)
 
     fig_anos.add_annotation(text=f'Vendas em milhões de {date[0]} a {date[1]}',
         xref="paper", yref="paper",
@@ -309,8 +330,12 @@ def long(date, radio):
     Output('graph02', 'figure'),
     Input('rangeslider', 'value'),
     Input('radio-genre', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def long(date, radio):
+def long(date, radio, toggle):
+    template = template_theme1 if toggle else template_theme2
+
     if radio == 'Global':
         mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
     else:
@@ -321,7 +346,7 @@ def long(date, radio):
     trace = df_anos.groupby('Year')['Global_Sales'].sum().reset_index()
 
     fig_anos = go.Figure(go.Scatter(x=trace['Year'], y=trace['Global_Sales'], mode='lines+markers', fill='tonexty', name='Global Sales'))
-    fig_anos.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None})
+    fig_anos.update_layout(main_config, height=200, xaxis={'title': None}, yaxis={'title': None}, template=template)
 
     fig_anos.add_annotation(text=f'Vendas em milhões de {date[0]} a {date[1]}',
         xref="paper", yref="paper",
@@ -339,8 +364,11 @@ def long(date, radio):
     Output('graph5', 'figure'),
     Input('rangeslider', 'value'),
     Input('radio-genre', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def fig1(date, radio):
+def fig1(date, radio, toggle):
+    template = template_theme1 if toggle else template_theme2
     if radio == 'Global':
         mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
     else:
@@ -356,15 +384,19 @@ def fig1(date, radio):
     text = [f'{x} - U${y} milhões' for x,y in zip(df_topglobal['Name'].unique(), df_topglobal['Global_Sales'].unique())]
 
     fig = go.Figure(go.Bar(x=df_topglobal['Global_Sales'], y=df_topglobal['Name'], orientation='h', marker_color='rgb(55, 83, 109)', text=text))
-    fig.update_layout(main_config, height=250, xaxis={'title': None, 'showticklabels':False}, yaxis={'title': None, 'showticklabels':False})
+    fig.update_layout(main_config, height=250, xaxis={'title': None, 'showticklabels':False}, yaxis={'title': None, 'showticklabels':False}, template=template)
     return fig
 
 @app.callback(
     Output('graph05', 'figure'),
     Input('rangeslider', 'value'),
     Input('radio-genre', 'value'),
+    Input(ThemeSwitchAIO.ids.switch("theme"), "value")
+
 )
-def fig1(date, radio):
+def fig1(date, radio, toggle):
+    template = template_theme1 if toggle else template_theme2
+
     if radio == 'Global':
         mask = (df['Year'] >= date[0]) & (df['Year'] <= date[1])
     else:
@@ -380,7 +412,7 @@ def fig1(date, radio):
     text = [f'{x} - U${y} milhões' for x,y in zip(df_topglobal['Name'].unique(), df_topglobal['Global_Sales'].unique())]
 
     fig = go.Figure(go.Bar(x=df_topglobal['Global_Sales'], y=df_topglobal['Name'], orientation='h', marker_color='rgb(55, 83, 109)', text=text))
-    fig.update_layout(main_config, height=410, xaxis={'title': None, 'showticklabels':False}, yaxis={'title': None, 'showticklabels':False})
+    fig.update_layout(main_config, height=410, xaxis={'title': None, 'showticklabels':False}, yaxis={'title': None, 'showticklabels':False}, template=template)
     return fig
 
 @app.callback(
