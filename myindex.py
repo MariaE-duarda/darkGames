@@ -10,8 +10,6 @@ from app import *
 from components import sidebar, dashboardsPrimario, dashboardsSecundario, dashboardsTerciario
 
 
-
-
 # =========  Layout  =========== #
 content = html.Div(id="page-content")
 

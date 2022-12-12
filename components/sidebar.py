@@ -26,11 +26,11 @@ layout = dbc.Col([
         dbc.Button(id='botao_avatar',
         children=[html.Img(src='/assets/Game-Icon.jpg', id='avatar_change', alt='Avatar', className='perfil_avatar', style={'width':'100%', 'height':'110px', 'border-radius':'10px'} )], 
         style={'background-color':'transparent', 'border-color':'transparent'}),
-        html.Button('Acessar código', className='button-git', style={'border':'none', 'background':'black', 'color':'white', 'border-radius':'10px', 'width':'80%', 'height':'40px', 'font-size':'18px', 'margin-left':'10%'}, id='simple-toast-toggle', n_clicks=1),
+        html.Button('Acessar código', className='button-git', style={'border':'none', 'background':'#181818', 'color':'white', 'border-radius':'10px', 'width':'80%', 'height':'40px', 'font-size':'18px', 'margin-left':'10%'}, id='simple-toast-toggle', n_clicks=1),
             dbc.Toast(
                 dbc.Badge(
                     "GitHub",
-                    href="https://github.com",
+                    href="https://github.com/MariaE-duarda/darkGames",
                     color="dark",
                     className="me-1 text-decoration-none badge",
                     style={'width':'200px', 'font-size':'13px', 'border-radius':'5px'}
@@ -46,9 +46,9 @@ layout = dbc.Col([
         html.Hr(),
         html.Legend('Telas de visualização', style={'font-size':'22px', 'margin-top':'5px', 'text-align':'center'}),
         dbc.Nav([
-            dbc.NavLink('Tela principal', className='button',href='/dashboardsPrimario', active='exact', style={'border':'none', 'border-radius':'5px', 'background-color':'#181D31', 'color':'white', 'height':'35px', 'font-size':'17px', 'width':'80%', 'text-align':'center', 'margin-left':'10%'}),
-            dbc.NavLink('Tela secundária', className='button', href='/dashboardsSecundario', active='exact', style={'border':'none', 'border-radius':'5px', 'background-color':'#181D31', 'color':'white', 'margin-top':'5px', 'height':'35px', 'font-size':'17px', 'width':'80%', 'text-align':'center', 'margin-left':'10%'}),
-            dbc.NavLink('Tela terciária', className='button', href='/dashboardsTerciario', active='exact', style={'border':'none', 'border-radius':'5px', 'background-color':'#181D31', 'color':'white', 'margin-top':'5px', 'height':'35px', 'font-size':'17px', 'width':'80%', 'text-align':'center', 'margin-left':'10%'}),
+            dbc.NavLink('Tela principal', className='button',href='/dashboardsPrimario', active='exact', style={'border':'none', 'border-radius':'5px', 'background-color':'#181818', 'color':'white', 'height':'35px', 'font-size':'17px', 'width':'80%', 'text-align':'center', 'margin-left':'10%'}),
+            dbc.NavLink('Tela secundária', className='button', href='/dashboardsSecundario', active='exact', style={'border':'none', 'border-radius':'5px', 'background-color':'#181818', 'color':'white', 'margin-top':'5px', 'height':'35px', 'font-size':'17px', 'width':'80%', 'text-align':'center', 'margin-left':'10%'}),
+            dbc.NavLink('Tela terciária', className='button', href='/dashboardsTerciario', active='exact', style={'border':'none', 'border-radius':'5px', 'background-color':'#181818', 'color':'white', 'margin-top':'5px', 'height':'35px', 'font-size':'17px', 'width':'80%', 'text-align':'center', 'margin-left':'10%'}),
         ]),
         dbc.Card([ 
             ThemeSwitchAIO(aio_id="theme", themes=[url_theme1, url_theme2]),

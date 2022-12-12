@@ -193,17 +193,19 @@ def graph0(date, radio, toggle):
 
     subplot_topgames = make_subplots(rows=1, cols=4, specs=[[{"type": "pie"}, {"type": "pie"}, {"type": "pie"}, {"type": "pie"}]],  subplot_titles=("América do Norte", "Europa", "Japão", "Outras Regiões"))
 
-    night_colors = ['rgb(56, 75, 126)', 'rgb(18, 36, 37)', 'rgb(34, 53, 101)',
-            'rgb(36, 55, 57)', 'rgb(6, 4, 4)', 'rgb(50, 80, 100)', 'rgb(40, 50, 70)', 'rgb(10, 45, 70)', 'rgb(20, 80, 126)']
+    colors = ['#e6f2ff', '#99ccff', '#ccccff',
+                            '#cc99ff', '#ff99ff', '#ff6699',
+                            '#ff9966', '#ff6600', '#ff5050', 
+                            '#ff0000']
 
     subplot_topgames.add_trace(go.Pie(
-        labels=df_NA['Name'], values=df_NA['Sales'], hole=.2, marker_colors=night_colors), row=1, col=1)
+        labels=df_NA['Name'], values=df_NA['Sales'], hole=.2, marker_colors=colors), row=1, col=1)
     subplot_topgames.add_trace(go.Pie(
-        labels=df_EU['Name'], values=df_EU['Sales'], hole=.2, marker_colors=night_colors), row=1, col=2)
+        labels=df_EU['Name'], values=df_EU['Sales'], hole=.2, marker_colors=colors), row=1, col=2)
     subplot_topgames.add_trace(go.Pie(
-        labels=df_JP['Name'], values=df_JP['Sales'], hole=.2, marker_colors=night_colors), row=1, col=3)
+        labels=df_JP['Name'], values=df_JP['Sales'], hole=.2, marker_colors=colors), row=1, col=3)
     subplot_topgames.add_trace(go.Pie(
-        labels=df_Other['Name'], values=df_Other['Sales'], hole=.2, marker_colors=night_colors), row=1, col=4)
+        labels=df_Other['Name'], values=df_Other['Sales'], hole=.2, marker_colors=colors), row=1, col=4)
 
     subplot_topgames.update_layout(margin={"l":0, "r":0, "t":20, "b":0}, height=200, template=template)
 
@@ -233,17 +235,20 @@ def graph01(date, radio, toggle):
 
     subplot_topgames = make_subplots(rows=1, cols=4, specs=[[{"type": "pie"}, {"type": "pie"}, {"type": "pie"}, {"type": "pie"}]],  subplot_titles=("América do Norte", "Europa", "Japão", "Outras Regiões"))
     
-    night_colors = ['rgb(56, 75, 126)', 'rgb(18, 36, 37)', 'rgb(34, 53, 101)',
-            'rgb(36, 55, 57)', 'rgb(6, 4, 4)', 'rgb(50, 80, 100)', 'rgb(40, 50, 70)', 'rgb(10, 45, 70)', 'rgb(20, 80, 126)']
+    colors = ['#e6f2ff', '#99ccff', '#ccccff',
+                            '#cc99ff', '#ff99ff', '#ff6699',
+                            '#ff9966', '#ff6600', '#ff5050', 
+                            '#ff0000']
+
 
     subplot_topgames.add_trace(go.Pie(
-        labels=df_NA['Name'], values=df_NA['Sales'], hole=.2, marker_colors=night_colors), row=1, col=1)
+        labels=df_NA['Name'], values=df_NA['Sales'], hole=.2, marker_colors=colors), row=1, col=1)
     subplot_topgames.add_trace(go.Pie(
-        labels=df_EU['Name'], values=df_EU['Sales'], hole=.2, marker_colors=night_colors), row=1, col=2)
+        labels=df_EU['Name'], values=df_EU['Sales'], hole=.2, marker_colors=colors), row=1, col=2)
     subplot_topgames.add_trace(go.Pie(
-        labels=df_JP['Name'], values=df_JP['Sales'], hole=.2, marker_colors=night_colors), row=1, col=3)
+        labels=df_JP['Name'], values=df_JP['Sales'], hole=.2, marker_colors=colors), row=1, col=3)
     subplot_topgames.add_trace(go.Pie(
-        labels=df_Other['Name'], values=df_Other['Sales'], hole=.2, marker_colors=night_colors), row=1, col=4)
+        labels=df_Other['Name'], values=df_Other['Sales'], hole=.2, marker_colors=colors), row=1, col=4)
 
     subplot_topgames.update_layout(margin={"l":0, "r":0, "t":20, "b":0}, height=200, template=template)
 

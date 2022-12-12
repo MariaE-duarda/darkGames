@@ -239,8 +239,12 @@ def long(date, toggle):
     labels = ['Vendas na Europa','Vendas na América','Vendas no Japão', 'Vendas em outros países']
     values = [value1, value3, value2, value4]
 
-    # pull is given as a fraction of the pie radius
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0])])
+    colors = ['#e6f2ff', '#99ccff', '#ccccff',
+                            '#cc99ff', '#ff99ff', '#ff6699',
+                            '#ff9966', '#ff6600', '#ff5050', 
+                            '#ff0000']
+
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2, 0], marker_colors=colors)])
     fig.update_layout(main_config, height=250, xaxis={'title': None}, yaxis={'title': None}, template=template)
 
 
