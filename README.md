@@ -3,11 +3,11 @@
 </div>
 
 <div align = "center">
-  <h3 align="center">☁️💜 Description 💜☁️</h3>
+  <h3 align="center">☁️💙 Description 💙☁️</h3>
   <p>Dash application for analysis of vgames.csv dataset data</p>
 </div> 
 
-<h3 align="center">☁️💜 Technologies 💜☁️</h3>
+<h3 align="center">☁️💙 Technologies 💙☁️</h3>
 <div align="center">
   <img height="59" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />&nbsp 
 </div>
@@ -15,8 +15,13 @@
 <br><br>
 
 <div align="center">
-  <img height="500" src="https://github.com/MariaE-duarda/DevRdm/blob/main/public/img/randomDevScreen.png?raw=true" />
+  <img height="350" src="https://github.com/MariaE-duarda/darkGames/blob/main/assets/tela%201%20-%20dashboard.png?raw=true" />
 </div>
+
+<div align='center'>
+  <img height="345" src="https://github.com/MariaE-duarda/darkGames/blob/main/assets/tela%202%20-%20dashboard.png?raw=true" />
+</div>
+
 
 <p align="center">done with 💖 per:</p>
 
