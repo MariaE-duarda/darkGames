@@ -15,11 +15,11 @@
 <br><br>
 
 <div align="center">
-  <img height="350" src="https://github.com/MariaE-duarda/darkGames/blob/main/assets/tela%201%20-%20dashboard.png?raw=true" />
+  <img src="https://github.com/MariaE-duarda/darkGames/blob/main/assets/tela%201%20-%20dashboard.png?raw=true" />
 </div>
 
 <div align='center'>
-  <img height="345" src="https://github.com/MariaE-duarda/darkGames/blob/main/assets/tela%202%20-%20dashboard.png?raw=true" />
+  <img src="https://github.com/MariaE-duarda/darkGames/blob/main/assets/tela%202%20-%20dashboard.png?raw=true" />
 </div>
 
 
